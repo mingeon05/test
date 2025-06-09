@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<title>상지대학교 국제경영학과 진로 로드맵</title>
+<style>
+  /* 기본 스타일 */
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 30px auto;
+    max-width: 1200px;
+    background-color: #f9fbfd;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    color: #0b3d91;
+    margin-bottom: 40px;
+    font-weight: 700;
+    font-size: 2.8em;
+  }
+  h2 {
+    border-left: 5px solid #0b3d91;
+    padding-left: 10px;
+    color: #0b3d91;
+    margin-top: 50px;
+    margin-bottom: 15px;
+  }
+
+  /* 필터 셀렉트 */
+  label {
+    font-weight: 600;
+    margin-right: 10px;
+    font-size: 1.1em;
+  }
+  select {
+    padding: 7px 15px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1.5px solid #0b3d91;
+    background-color: white;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  select:hover, select:focus {
+    border-color: #1a5fe3;
+    outline: none;
+  }
+
+  /* 표 스타일 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  thead {
+    background-color: #0b3d91;
+    color: white;
+  }
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  tbody tr:nth-child(even) {
+    background-color: #eef4ff;
+  }
+  tbody tr:hover {
+    background-color: #c9d9ff;
+    transition: background-color 0.3s ease;
+  }
+
+  /* 추천 영역 */
+  .recommendation-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #eaf1fb;
+    border: 2px solid #0b3d91;
+    border-radius: 12px;
+    font-size: 1.05em;
+    line-height: 1.6;
+  }
+  .recommendation-container h3 {
+    color: #0b3d91;
+    margin-bottom: 12px;
+  }
+  .spec-list {
+    margin-top: 10px;
+  }
+  .spec-list strong {
+    color: #1a5fe3;
+  }
+
+  /* 그리드 레이아웃 (추천 과목 + 스펙 병렬 배치) */
+  .recommendation-flex {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+  }
+  .recommendation-box {
+    flex: 1 1 45%;
+    min-width: 280px;
+    background-color: white;
+    border: 1.8px solid #1a5fe3;
+    border-radius: 12px;
+    padding: 15px 20px;
+    box-shadow: 3px 3px 10px rgba(26,95,227,0.15);
+  }
+
+  /* 반응형 */
+  @media (max-width: 720px) {
+    .recommendation-flex {
+      flex-direction: column;
+    }
+    .recommendation-box {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>상지대학교 국제경영학과 진로 로드맵</h1>
+
+<section>
+  <h2>선배 취업 사례 (30명 데이터)</h2>
+
+  <label for="job-filter">직업 분류별 필터:</label>
+  <select id="job-filter" aria-label="직업 분류별 필터">
+    <option value="all">전체 보기</option>
+    <option value="기술 기업">기술 기업</option>
+    <option value="생활 서비스 기업">생활 서비스 기업</option>
+    <option value="금융기관">금융기관</option>
+    <option value="세무 공무원 및 공기관">세무 공무원 및 공기관</option>
+  </select>
+
+  <table id="alumni-table" aria-label="선배 취업 사례 표">
+    <thead>
+      <tr>
+        <th>직업 분류</th>
+        <th>ID</th>
+        <th>TOEIC</th>
+        <th>TOEFL</th>
+        <th>제2외국어 자격증</th>
+        <th>인턴 경험</th>
+        <th>자격증</th>
+        <th>대외활동</th>
+        <th>취업 분야</th>
+        <th>취업 기업/기관</th>
+        <th>직무</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<section>
+  <h2>진로별 추천 전공 및 교양 과목 및 추천 스펙</h2>
+
+  <div class="recommendation-container" id="recommendation">
+    관심 분야를 선택하면 추천 전공 및 교양 과목과 추천 스펙이 표시됩니다.
+  </div>
+</section>
+
+<script>
+  const alumniData = [
+    {직업분류:"기술 기업", ID:"1", TOEIC:900, TOEFL:105, 제2외국어:"JLPT N2", 인턴:"O", 자격증:"회계관리사", 대외활동:"마케팅 서포터즈", 취업분야:"기술 기업", 기업:"삼성전자", 직무:"경영지원"},
+    {직업분류:"생활 서비스 기업", ID:"2", TOEIC:850, TOEFL:98, 제2외국어:"HSK 5급", 인턴:"X", 자격증:"세무사", 대외활동:"봉사동아리", 취업분야:"생활 서비스 기업", 기업:"신세계백화점", 직무:"마케팅"},
+    {직업분류:"금융기관", ID:"3", TOEIC:920, TOEFL:110, 제2외국어:"JLPT N1", 인턴:"O", 자격증:"재무위험관리사", 대외활동:"금융 동아리", 취업분야:"금융기관", 기업:"국민은행", 직무:"자산관리"},
+    {직업분류:"세무 공무원 및 공기관", ID:"4", TOEIC:880, TOEFL:100, 제2외국어:"HSK 4급", 인턴:"O", 자격증:"공인회계사", 대외활동:"학생회", 취업분야:"세무 공무원 및 공기관", 기업:"국세청", 직무:"세무행정"},
+    {직업분류:"기술 기업", ID:"5", TOEIC:870, TOEFL:95, 제2외국어:"JLPT N3", 인턴:"X", 자격증:"ITIL", 대외활동:"창업 동아리", 취업분야:"기술 기업", 기업:"LG전자", 직무:"제품기획"},
+    {직업분류:"생활 서비스 기업", ID:"6", TOEIC:840, TOEFL:90, 제2외국어:"HSK 3급", 인턴:"O", 자격증:"CS 리더스", 대외활동:"봉사활동", 취업분야:"생활 서비스 기업", 기업:"CJ푸드빌", 직무:"서비스기획"},
+    {직업분류:"금융기관", ID:"7", TOEIC:910, TOEFL:108, 제2외국어:"JLPT N2", 인턴:"X", 자격증:"증권투자권유대행인", 대외활동:"경제 연구회", 취업분야:"금융기관", 기업:"신한은행", 직무:"리스크관리"},
+    {직업분류:"세무 공무원 및 공기관", ID:"8", TOEIC:860, TOEFL:92, 제2외국어:"HSK 5급", 인턴:"O", 자격증:"전산세무 2급", 대외활동:"학생 자치회", 취업분야:"세무 공무원 및 공기관", 기업:"지방세청", 직무:"세무조사"},
+    {직업분류:"기술 기업", ID:"9", TOEIC:895, TOEFL:103, 제2외국어:"JLPT N1", 인턴:"O", 자격증:"정보처리기사", 대외활동:"IT 서포터즈", 취업분야:"기술 기업", 기업:"네이버", 직무:"경영기획"},
+    {직업분류:"생활 서비스 기업", ID:"10", TOEIC:830, TOEFL:88, 제2외국어:"HSK 4급", 인턴:"X", 자격증:"CS마스터", 대외활동:"봉사단", 취업분야:"생활 서비스 기업", 기업:"롯데백화점", 직무:"고객관리"},
+    {직업분류:"금융기관", ID:"11", TOEIC:915, TOEFL:107, 제2외국어:"JLPT N2", 인턴:"O", 자격증:"재무분석사", 대외활동:"투자 동아리", 취업분야:"금융기관", 기업:"하나은행", 직무:"재무관리"},
+    {직업분류:"세무 공무원 및 공기관", ID:"12", TOEIC:875, TOEFL:101, 제2외국어:"HSK 5급", 인턴:"X", 자격증:"공인노무사", 대외활동:"학생회", 취업분야:"세무 공무원 및 공기관", 기업:"고용노동부", 직무:"노무관리"},
+    {직업분류:"기술 기업", ID:"13", TOEIC:880, TOEFL:99, 제2외국어:"JLPT N3", 인턴:"O", 자격증:"ERP 전문가", 대외활동:"기술 동아리", 취업분야:"기술 기업", 기업:"SK하이닉스", 직무:"경영지원"},
+    {직업분류:"생활 서비스 기업", ID:"14", TOEIC:825, TOEFL:85, 제2외국어:"HSK 3급", 인턴:"X", 자격증:"서비스경영사", 대외활동:"봉사동아리", 취업분야:"생활 서비스 기업", 기업:"아모레퍼시픽", 직무:"마케팅"},
+    {직업분류:"금융기관", ID:"15", TOEIC:900, TOEFL:105, 제2외국어:"JLPT N1", 인턴:"O", 자격증:"보험계리사", 대외활동:"금융 연구회", 취업분야:"금융기관", 기업:"메트라이프생명", 직무:"보험계리"},
+    {직업분류:"세무 공무원 및 공기관", ID:"16", TOEIC:870, TOEFL:98, 제2외국어:"HSK 4급", 인턴:"X", 자격증:"전산회계 1급", 대외활동:"학생회", 취업분야:"세무 공무원 및 공기관", 기업:"관세청", 직무:"관세행정"},
+    {직업분류:"기술 기업", ID:"17", TOEIC:885, TOEFL:100, 제2외국어:"JLPT N2", 인턴:"O", 자격증:"정보보안기사", 대외활동:"IT 동아리", 취업분야:"기술 기업", 기업:"카카오", 직무:"경영기획"},
+    {직업분류:"생활 서비스 기업", ID:"18", TOEIC:835, TOEFL:90, 제2외국어:"HSK 4급", 인턴:"X", 자격증:"CS리더스", 대외활동:"봉사단", 취업분야:"생활 서비스 기업", 기업:"CJ ENM", 직무:"서비스기획"},
+    {직업분류:"금융기관", ID:"19", TOEIC:920, TOEFL:112, 제2외국어:"JLPT N1", 인턴:"O", 자격증:"재무설계사", 대외활동:"경제 동아리", 취업분야:"금융기관", 기업:"우리은행", 직무:"자산관리"},
+    {직업분류:"세무 공무원 및 공기관", ID:"20", TOEIC:865, TOEFL:95, 제2외국어:"HSK 5급", 인턴:"O", 자격증:"공인회계사", 대외활동:"학생회", 취업분야:"세무 공무원 및 공기관", 기업:"국세청", 직무:"세무행정"},
+    {직업분류:"기술 기업", ID:"21", TOEIC:890, TOEFL:102, 제2외국어:"JLPT N3", 인턴:"X", 자격증:"정보처리기사", 대외활동:"기술 서포터즈", 취업분야:"기술 기업", 기업:"현대자동차", 직무:"경영지원"},
+    {직업분류:"생활 서비스 기업", ID:"22", TOEIC:820, TOEFL:87, 제2외국어:"HSK 3급", 인턴:"O", 자격증:"서비스경영사", 대외활동:"봉사활동", 취업분야:"생활 서비스 기업", 기업:"롯데마트", 직무:"고객관리"},
+    {직업분류:"금융기관", ID:"23", TOEIC:910, TOEFL:108, 제2외국어:"JLPT N2", 인턴:"X", 자격증:"증권투자권유대행인", 대외활동:"투자 동아리", 취업분야:"금융기관", 기업:"KB증권", 직무:"리스크관리"},
+    {직업분류:"세무 공무원 및 공기관", ID:"24", TOEIC:875, TOEFL:99, 제2외국어:"HSK 4급", 인턴:"O", 자격증:"전산세무 2급", 대외활동:"학생회", 취업분야:"세무 공무원 및 공기관", 기업:"지방세청", 직무:"세무조사"},
+    {직업분류:"기술 기업", ID:"25", TOEIC:895, TOEFL:104, 제2외국어:"JLPT N1", 인턴:"O", 자격증:"ITIL", 대외활동:"창업 동아리", 취업분야:"기술 기업", 기업:"삼성SDS", 직무:"제품기획"},
+    {직업분류:"생활 서비스 기업", ID:"26", TOEIC:830, TOEFL:88, 제2외국어:"HSK 4급", 인턴:"X", 자격증:"CS마스터", 대외활동:"봉사단", 취업분야:"생활 서비스 기업", 기업:"신세계", 직무:"마케팅"},
+    {직업분류:"금융기관", ID:"27", TOEIC:920, TOEFL:110, 제2외국어:"JLPT N1", 인턴:"O", 자격증:"재무분석사", 대외활동:"경제 연구회", 취업분야:"금융기관", 기업:"한국투자증권", 직무:"재무관리"},
+    {직업분류:"세무 공무원 및 공기관", ID:"28", TOEIC:860, TOEFL:90, 제2외국어:"HSK 5급", 인턴:"X", 자격증:"공인노무사", 대외활동:"학생회", 취업분야:"세무 공무원 및 공기관", 기업:"고용노동부", 직무:"노무관리"},
+    {직업분류:"기술 기업", ID:"29", TOEIC:880, TOEFL:98, 제2외국어:"JLPT N2", 인턴:"O", 자격증:"정보보안기사", 대외활동:"IT 서포터즈", 취업분야:"기술 기업", 기업:"LG CNS", 직무:"경영기획"},
+    {직업분류:"생활 서비스 기업", ID:"30", TOEIC:825, TOEFL:85, 제2외국어:"HSK 3급", 인턴:"X", 자격증:"서비스경영사", 대외활동:"봉사동아리", 취업분야:"생활 서비스 기업", 기업:"아모레퍼시픽", 직무:"서비스기획"}
+  ];
+
+  // 진로별 추천 과목 및 스펙 데이터
+  const careerRecommendations = {
+    "기술 기업": {
+      전공: ["경영정보시스템", "회계원리", "마케팅원론", "통계학", "재무관리"],
+      교양: ["비즈니스영어", "창의적사고", "프로그래밍 기초"],
+      스펙: ["정보처리기사 자격증", "인턴 경험 (IT 분야)", "영어 토익 900점 이상", "JLPT N2 이상"]
+    },
+    "생활 서비스 기업": {
+      전공: ["서비스경영", "마케팅원론", "소비자행동론", "조직행동론"],
+      교양: ["커뮤니케이션 스킬", "비즈니스 영어", "문화 이해"],
+      스펙: ["CS 자격증", "봉사활동 및 대외활동 경험", "토익 850점 이상", "HSK 4급 이상"]
+    },
+    "금융기관": {
+      전공: ["재무관리", "회계원리", "경제학원론", "투자론", "금융상품론"],
+      교양: ["비즈니스 영어", "경제학 입문", "통계학 기초"],
+      스펙: ["재무위험관리사(FRM)", "인턴 경험 (금융기관)", "토익 900점 이상", "JLPT N1 이상"]
+    },
+    "세무 공무원 및 공기관": {
+      전공: ["세법개론", "회계원리", "행정학", "공공관리론"],
+      교양: ["정책학 기초", "법학 개론", "한국사"],
+      스펙: ["공인회계사", "전산세무 자격증", "인턴 경험 (공공기관)", "토익 850점 이상"]
+    }
+  };
+
+  const alumniTableBody = document.querySelector("#alumni-table tbody");
+  const jobFilter = document.getElementById("job-filter");
+  const recommendationContainer = document.getElementById("recommendation");
+
+  // 테이블 데이터 렌더링 함수
+  function renderTable(filter) {
+    alumniTableBody.innerHTML = "";
+    const filtered = filter === "all" ? alumniData : alumniData.filter(a => a.직업분류 === filter);
+    if(filtered.length === 0) {
+      alumniTableBody.innerHTML = `<tr><td colspan="11" style="text-align:center;">해당 직업 분류에 대한 데이터가 없습니다.</td></tr>`;
+      return;
+    }
+    for(const item of filtered) {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${item.직업분류}</td>
+        <td>${item.ID}</td>
+        <td>${item.TOEIC}</td>
+        <td>${item.TOEFL}</td>
+        <td>${item.제2외국어자격증 || item.제2외국어 || "-"}</td>
+        <td>${item.인턴}</td>
+        <td>${item.자격증}</td>
+        <td>${item.대외활동}</td>
+        <td>${item.취업분야}</td>
+        <td>${item.기업}</td>
+        <td>${item.직무}</td>
+      `;
+      alumniTableBody.appendChild(row);
+    }
+  }
+
+  // 추천 전공·교양·스펙 출력 함수
+  function renderRecommendation(career) {
+    if (!career || !(career in careerRecommendations)) {
+      recommendationContainer.innerHTML = "관심 분야를 선택하면 추천 전공 및 교양 과목과 추천 스펙이 표시됩니다.";
+      return;
+    }
+    const rec = careerRecommendations[career];
+    recommendationContainer.innerHTML = `
+      <h3>${career} 분야 추천 과목 및 스펙</h3>
+      <div class="recommendation-flex">
+        <div class="recommendation-box">
+          <h4>추천 전공 과목</h4>
+          <ul>${rec.전공.map(subject => `<li>${subject}</li>`).join("")}</ul>
+          <h4>추천 교양 과목</h4>
+          <ul>${rec.교양.map(subject => `<li>${subject}</li>`).join("")}</ul>
+        </div>
+        <div class="recommendation-box">
+          <h4>추천 스펙</h4>
+          <ul class="spec-list">
+            ${rec.스펙.map(spec => `<li><strong>${spec}</strong></li>`).join("")}
+          </ul>
+        </div>
+      </div>
+    `;
+  }
+
+  // 필터 이벤트
+  jobFilter.addEventListener("change", () => {
+    const selected = jobFilter.value;
+    renderTable(selected);
+    renderRecommendation(selected);
+  });
+
+  // 초기 렌더링 (전체)
+  renderTable("all");
+  renderRecommendation(null);
+
+</script>
+
+</body>
+</html>
